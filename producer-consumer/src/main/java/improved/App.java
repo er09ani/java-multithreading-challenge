@@ -17,7 +17,7 @@ public class App {
         List<Consumer> consumers = new ArrayList<>();
 
         int numberOfProducers = 10;
-        int numberOfConsumers = 1;
+        int numberOfConsumers = 4;
 
         for (int i = 0; i < numberOfProducers; i++) {
             producers.add(new Producer(queue, counter));

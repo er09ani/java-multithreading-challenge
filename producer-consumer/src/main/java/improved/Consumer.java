@@ -16,14 +16,20 @@ public class Consumer extends Thread {
     @Override
     public void run() {
         try {
-            while (running || !queue.isEmpty()) {
-                Integer value = queue.take(); // blocks automatically if queue is empty
+            while (running || !queue.isEmpty()) { // continue if running OR queue not empty
+                Integer value = queue.take();   // blocks if empty
                 counter.decrementAndGet();
                 System.out.println("Consumer consumed: " + value);
                 Thread.sleep(500); // simulate work
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            // Drain remaining items if any
+            Integer value;
+            while ((value = queue.poll()) != null) {
+                counter.decrementAndGet();
+                System.out.println("Consumer consumed (draining): " + value);
+            }
         }
     }
 
